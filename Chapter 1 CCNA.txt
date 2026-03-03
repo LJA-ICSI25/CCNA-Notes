@@ -72,3 +72,24 @@ Rules for network masks
 						- 192.168.1.1-192.168.1.254
 				- A host portion of all binary 1's means it is the broadcast address
 					- 192.168.1.255
+					
+Classes of IPv4 Addresses
+
+IPv4 addresses divided into 5 different classes according to size.
+(Not currently used due to Classless interdomain routing but still good to know)
+
+Broken down by a concept called "leading bit pattern" of the first octet of a IPv4 address
+
+Below is the class specifications:
+
+Class	|Leading Bit Pattern	|First Octet (Decimal)	|Notes
+A		|0xxxxxxx				|0-127					|0 is invalid, 10.0.0.0/8 is reserved for private, internal routing only, 127 is reserved for loopback testing
+B		|10xxxxxx				|128-191				|127.16.0.0/12 is reserved for private, internal routing only
+C 		|110xxxxx				|192-223				|192.168.0.0/16 is reserved for private, internal routing only
+D 		|1110xxxx				|224-239				|Reserved for multicasting; cannot be assigned to unicast hosts
+E		|1111xxxx				|240-255				|Reserved for future use\testing
+
+Class A, B and C are the only classes able to use unicast communication
+Class D is for multicast communication
+Class E will never be released for unicast communication
+
