@@ -57,3 +57,18 @@ Rules for network masks
 		- 192.168.1.1 255.255.255.0
 		- 192.168.1.1/24 
 	
+	First designed to allow for people to recognize whether an IP address connected to a specific device or a group of devices
+		In a IP address:
+			- A host portion of all binary 0's refers to the network itself
+			- A host portion with a combonation is a specific device
+			- A host portion with all binary 1's refers to the broadcast address of the network
+			
+			- We will use 192.168.1.1/24 for everything 
+				- All 0's in the host means it's the network itself 
+					- 192.168.1.0
+				- A host portion with a binary of 00000001 is the first host of the network
+					- 192.168.1.1
+					- This also ranges up to 11111110 give a range of 254 unique addresses
+						- 192.168.1.1-192.168.1.254
+				- A host portion of all binary 1's means it is the broadcast address
+					- 192.168.1.255
