@@ -1,0 +1,59 @@
+--IPv4 Addresses--
+
+-What are IPv4 addresses used for?-
+	- Created to allow on specific digital device to communicate directly with another specific digital device
+		- This is called unicast communication
+	- Needs to allow for one device to access multiple device
+	
+IPv4 address is known as a hierarchical address because it can be divided into multiple smaller domains 
+An IPv4 address in conjunction with a subnet gives you two pieces of infomation
+	- The network in which the device is loaded
+	- The unique identifier of the device
+(Different from a MAC address, MAC address is a flat address. It does not give infomation about the network it's connected to.)
+
+
+-What does a IPv4 address look like?-
+	- The computer sees a 32-bit number 
+	- For us they are broken up into 4 groups of 8 bits called bytes or octet. Seperated by periods
+	- For example:
+		- 11000000.10101000.00000001.00000001
+		- This would result in 192.168.1.1
+		
+		More about binary (the type of language this is)
+		- You start with 00000000
+		- The first 0 stands for 1
+		- The second 0 stands for 2
+		- The third 0 stands for 4
+		- The forth 0 stands for 8
+		- The fifth 0 stands for 16
+		- The sixth 0 stands for 32
+		- The seventh 0 stands for 64
+		- The eighth 0 stands for 128
+		- This is assumming it is a 8 bit number, anything past is the same pattern (just keep doubling until you reach the number)
+		- For example:
+			- 00001111 is 31, it would not be 32 because 00010000 is 32
+			- 11111111 is 255, the largest possible number for a 8 bit number
+			- For practice, what is 11010011 ----------------------------- (answer is 227)
+			
+IPv4 needs some way to differenate the network portion to the host portion. To do this all IPv4 address have a network mask (or subnetwork mask, subnet mask or mask)
+A network mask is 32 bits that define what portion reprents the network and which portion is the host. 
+Rules for network masks
+	- A 1 in the mask defines a network bit
+	- A 0 in the mask defines a host bit
+	
+3 ways to donote a subnet mask:
+	- Binary
+		- 11111111.11111111.11111111.00000000
+	- Decimal
+		- 255.255.255.0
+	- Slash Notation
+		- /24
+		
+	All of them tell us the first 24 bits of the 32 bit mask at 1 and the last 8 are 0
+	Compared to a IPv4 Address the first 24 bits are the network portion of the address and the last 8 bits define the host
+	If you add them you get a result like this:
+		- 11000000.10101000.00000001.00000001 (address)
+		- 11111111.11111111.11111111.00000000 (mask)
+		- 192.168.1.1 255.255.255.0
+		- 192.168.1.1/24 
+	
