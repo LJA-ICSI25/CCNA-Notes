@@ -7,3 +7,6 @@ For any questions email me at ljaicsi25@gmail.com or discord at @cyberkeco
 <ul>
   <li>Chapter 1</li>
 </ul>
+<br>
+<br>
+Please do not take my work, I do these notes on my own time. Feel free to study but do not claim as your own without permission
