@@ -93,3 +93,36 @@ Class A, B and C are the only classes able to use unicast communication
 Class D is for multicast communication
 Class E will never be released for unicast communication
 
+
+Network vs. Node (Host) bits
+
+Within class A to C, the four octets were broken down to either network octets or node octets. 
+
+Class	|Octet 1		|Octet 2		|Octet 3		|Octet 4		|Default network mask
+A 		|NNNNNNNN		|HHHHHHHH		|HHHHHHHH		|HHHHHHHH		|/8 or 255.0.0.0
+B 		|NNNNNNNN		|NNNNNNNN		|HHHHHHHH		|HHHHHHHH		|/16 or 255.255.0.0
+C 		|NNNNNNNN		|NNNNNNNN		|NNNNNNNN		|HHHHHHHH		|/24 or 255.255.255.0
+
+Class A has 24 bits to assign hosts. 2^24 = 16,777,216. Removing two hosts for network ID (all 0 for host portion, all 1 for broadcast portion.)
+This leaves 16,777,214 avaible for in a single network. 
+
+Class B has 16 bits to assign hosts. 2^16 = 65,536. 
+Subtracting the same two hosts leaves 65,534 vaild hosts per network. 
+
+Class C has 8 bits to assign hosts. 2^8 = 256. 
+Subtracting the same two hosts leaves 254 vaild hosts per network. 
+
+Following this infomation, we can make these conclusions. 
+	- There are 126 Class A networks of 16,777,214 vaild hosts each
+	- There are 16,384 Class B networks of 65,534 valid hosts each
+		- We get this from the first 16 bits, but the two of them are fixed in the pattern of 10.
+			- This means that we have 14 bits left to assign addresses. 
+			- This ranges from 10000000.00000000 (128.0) to 10111111.11111111 (191.255)
+			- This results in 16,384 differnt combonations/networks
+	- There are 2,097,152 Class C networks of 254 valid hosts each.
+		- We get this from the first 24 bits, the first three of them are fixed in the pattern of 110.
+			- That means we have 21 bits left to assign addresses. 
+			- This ranges from 11000000.00000000.00000000 (192.0.0) to 11011111.11111111.11111111 (223.255.255)
+			- That results in 2,097,152 differnt combonations/networks
+			
+Using this infomation, we can tell that 192.168.1.1/24 is a class C network
