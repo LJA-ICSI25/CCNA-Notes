@@ -53,6 +53,23 @@
             border-radius: 4px;
             margin: 1rem 0;
         }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        th, td {
+            border: 1px solid #3d3d5c;
+            padding: 0.5rem 0.75rem;
+            text-align: left;
+        }
+        th {
+            background: #2d2d44;
+            color: #7eb8da;
+        }
+        td {
+            background: #252540;
+        }
     </style>
 </head>
 <body>
@@ -104,9 +121,9 @@
     <div class="example">
         <strong>Examples:</strong>
         <ul>
-            <li><code>00001111</code> is 31 (it would not be 32 because <code>00010000</code> is 32)</li>
+            <li><code>00011111</code> is 31 (it would not be 32 because <code>00100000</code> is 32)</li>
             <li><code>11111111</code> is 255, the largest possible number for an 8-bit number</li>
-            <li>For practice: what is <code>11010011</code>? — <em>(answer: 211)</em></li>
+            <li>For practice: what is <code>11010011</code>? — <em>(answer: 227)</em></li>
         </ul>
     </div>
 
@@ -137,6 +154,150 @@
             <li><code>192.168.1.1 255.255.255.0</code></li>
             <li><code>192.168.1.1/24</code></li>
         </ul>
+    </div>
+
+    <p>First designed to allow for people to recognize whether an IP address connected to a specific device or a group of devices.</p>
+    <p>In an IP address:</p>
+    <ul>
+        <li>A host portion of <strong>all binary 0's</strong> refers to the network itself</li>
+        <li>A host portion with a <strong>combination</strong> is a specific device</li>
+        <li>A host portion of <strong>all binary 1's</strong> refers to the broadcast address of the network</li>
+    </ul>
+
+    <div class="example">
+        <strong>Using <code>192.168.1.1/24</code> for our example:</strong>
+        <ul>
+            <li><strong>All 0's in the host</strong> = the network itself → <code>192.168.1.0</code></li>
+            <li><strong>Host portion <code>00000001</code></strong> = first host → <code>192.168.1.1</code>
+                <ul><li>Ranges up to <code>11111110</code>, giving 254 unique addresses: <code>192.168.1.1</code>–<code>192.168.1.254</code></li></ul>
+            </li>
+            <li><strong>Host portion of all 1's</strong> = broadcast address → <code>192.168.1.255</code></li>
+        </ul>
+    </div>
+
+    <h2>Classes of IPv4 Addresses</h2>
+    <p>IPv4 addresses are divided into 5 different classes according to size.</p>
+    <div class="note">
+        <strong>Note:</strong> Not currently used due to Classless Inter-Domain Routing (CIDR), but still good to know.
+    </div>
+    <p>Broken down by a concept called <strong>"leading bit pattern"</strong> of the first octet of an IPv4 address.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Class</th>
+                <th>Leading Bit Pattern</th>
+                <th>First Octet (Decimal)</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>A</td>
+                <td><code>0xxxxxxx</code></td>
+                <td>0–127</td>
+                <td>0 is invalid; 10.0.0.0/8 reserved for private internal routing; 127 reserved for loopback testing</td>
+            </tr>
+            <tr>
+                <td>B</td>
+                <td><code>10xxxxxx</code></td>
+                <td>128–191</td>
+                <td>172.16.0.0/12 reserved for private internal routing</td>
+            </tr>
+            <tr>
+                <td>C</td>
+                <td><code>110xxxxx</code></td>
+                <td>192–223</td>
+                <td>192.168.0.0/16 reserved for private internal routing</td>
+            </tr>
+            <tr>
+                <td>D</td>
+                <td><code>1110xxxx</code></td>
+                <td>224–239</td>
+                <td>Reserved for multicasting; cannot be assigned to unicast hosts</td>
+            </tr>
+            <tr>
+                <td>E</td>
+                <td><code>1111xxxx</code></td>
+                <td>240–255</td>
+                <td>Reserved for future use/testing</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>Classes A, B, and C are the only classes able to use unicast communication</li>
+        <li>Class D is for multicast communication</li>
+        <li>Class E will never be released for unicast communication</li>
+    </ul>
+
+    <h2>Network vs. Node (Host) Bits</h2>
+    <p>Within classes A to C, the four octets were broken down into either network octets (N) or node/host octets (H).</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Class</th>
+                <th>Octet 1</th>
+                <th>Octet 2</th>
+                <th>Octet 3</th>
+                <th>Octet 4</th>
+                <th>Default Network Mask</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>A</td>
+                <td>NNNNNNNN</td>
+                <td>HHHHHHHH</td>
+                <td>HHHHHHHH</td>
+                <td>HHHHHHHH</td>
+                <td>/8 or 255.0.0.0</td>
+            </tr>
+            <tr>
+                <td>B</td>
+                <td>NNNNNNNN</td>
+                <td>NNNNNNNN</td>
+                <td>HHHHHHHH</td>
+                <td>HHHHHHHH</td>
+                <td>/16 or 255.255.0.0</td>
+            </tr>
+            <tr>
+                <td>C</td>
+                <td>NNNNNNNN</td>
+                <td>NNNNNNNN</td>
+                <td>NNNNNNNN</td>
+                <td>HHHHHHHH</td>
+                <td>/24 or 255.255.255.0</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li><strong>Class A</strong> has 24 bits for hosts. 2<sup>24</sup> = 16,777,216. Removing two (network ID + broadcast) leaves <strong>16,777,214</strong> available hosts per network.</li>
+        <li><strong>Class B</strong> has 16 bits for hosts. 2<sup>16</sup> = 65,536. Subtracting two leaves <strong>65,534</strong> valid hosts per network.</li>
+        <li><strong>Class C</strong> has 8 bits for hosts. 2<sup>8</sup> = 256. Subtracting two leaves <strong>254</strong> valid hosts per network.</li>
+    </ul>
+
+    <h3>Conclusions</h3>
+    <ul>
+        <li>There are <strong>126</strong> Class A networks of 16,777,214 valid hosts each</li>
+        <li>There are <strong>16,384</strong> Class B networks of 65,534 valid hosts each
+            <ul>
+                <li>From the first 16 bits, but two are fixed (<code>10</code>). That leaves 14 bits → 2<sup>14</sup> = 16,384</li>
+                <li>Ranges from <code>10000000.00000000</code> (128.0) to <code>10111111.11111111</code> (191.255)</li>
+            </ul>
+        </li>
+        <li>There are <strong>2,097,152</strong> Class C networks of 254 valid hosts each
+            <ul>
+                <li>First 24 bits, with first three fixed (<code>110</code>). That leaves 21 bits → 2<sup>21</sup> = 2,097,152</li>
+                <li>Ranges from <code>11000000.00000000.00000000</code> (192.0.0) to <code>11011111.11111111.11111111</code> (223.255.255)</li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="note">
+        <strong>Example:</strong> Using this information, <code>192.168.1.1/24</code> is a Class C network.
     </div>
 </body>
 </html>
