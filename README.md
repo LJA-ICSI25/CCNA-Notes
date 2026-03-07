@@ -7,6 +7,10 @@ To view HTML version, navigate to HTML branch
 <hr>
 <h2>In progress</h2>
 <ul>
+  <li>Chapter 2</li>
+</ul>
+<h2>Completed (Both text and HTML)</h2>
+<ul>
   <li>Chapter 1</li>
 </ul>
 <br>
