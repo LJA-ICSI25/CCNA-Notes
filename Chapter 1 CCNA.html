@@ -347,6 +347,21 @@
                 <div class="note">
                     <strong>Example:</strong> <code>192.168.1.1/24</code> is a Class C network.
                 </div>
+
+                <h2>RFC (private) 1918 Addresses</h2>
+                <ul>
+                    <li>Created to help slow the depletion of IPv4 addresses</li>
+                    <li>Addresses that are part of RFC are to be used for internal networks only. They are allowed within the network but not allowed to the public.</li>
+                    <li>Must go through a Network Address Translation (NAT) to be used for public use.</li>
+                </ul>
+
+                <h2>Local vs. Remote Addresses</h2>
+                <ul>
+                    <li>Addresses within the same network and can communicate are considered Local to each other</li>
+                    <li>Addresses in two different networks that can communicate are considered remote to each other</li>
+                    <li>Local devices can only communicate directly with each other</li>
+                    <li>Remote devices require a Layer 3 device (such as a router or layer 3 switch)</li>
+                </ul>
             </div>
         </section>
 
