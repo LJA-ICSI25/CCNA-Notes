@@ -178,6 +178,18 @@
             border: 1px solid var(--border);
         }
 
+        .chapter-content .lessons-learned {
+            background: rgba(167, 139, 250, 0.06);
+            border: 1px solid rgba(167, 139, 250, 0.25);
+            border-radius: 8px;
+            padding: 1.25rem 1.5rem;
+            margin: 2rem 0 0;
+        }
+
+        .chapter-content .lessons-learned h2 {
+            margin-top: 0;
+        }
+
         .chapter-content code {
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.9em;
@@ -362,6 +374,26 @@
                     <li>Local devices can only communicate directly with each other</li>
                     <li>Remote devices require a Layer 3 device (such as a router or layer 3 switch)</li>
                 </ul>
+
+                <!-- Note to self: did not include Classless Addressing. Will add later -->
+                <div class="lessons-learned">
+                    <h2>Lessons Learned</h2>
+                    <ul>
+                        <li><code>192.168.1.1/24</code> tells us:
+                            <ul>
+                                <li>The network portion is 192.168.1
+                                    <ul><li>This is shown as <code>192.168.1.0/24</code></li></ul>
+                                </li>
+                                <li>The host portion of this address is .1</li>
+                                <li>There are 254 valid hosts on this network
+                                    <ul><li>This is the first valid host</li></ul>
+                                </li>
+                                <li>The broadcast address is <code>192.168.1.255/24</code></li>
+                                <li>This is a Class C network</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </section>
 
