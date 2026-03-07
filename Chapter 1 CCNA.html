@@ -3,301 +3,371 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter 1 CCNA - IPv4 Addresses</title>
+    <title>CCNA Study Notes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-dark: #0a0e17;
+            --bg-card: #141b2d;
+            --bg-input: #1a2332;
+            --accent: #22d3ee;
+            --accent-orange: #f59e0b;
+            --accent-purple: #a78bfa;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.06);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            max-width: 800px;
+            font-family: 'DM Sans', system-ui, sans-serif;
+            line-height: 1.7;
+            margin: 0;
+            min-height: 100vh;
+            background: var(--bg-dark);
+            background-image: 
+                linear-gradient(180deg, rgba(34, 211, 238, 0.03) 0%, transparent 50%),
+                repeating-linear-gradient(0deg, transparent, transparent 50px, rgba(255,255,255,0.01) 50px, rgba(255,255,255,0.01) 51px),
+                repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(255,255,255,0.01) 50px, rgba(255,255,255,0.01) 51px);
+            color: var(--text);
+        }
+
+        /* Top header bar */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background: rgba(10, 14, 23, 0.9);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            z-index: 100;
+        }
+
+        .brand {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .nav {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav a {
+            padding: 0.5rem 1rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .nav a:hover {
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav a.active {
+            color: var(--accent);
+            background: rgba(34, 211, 238, 0.1);
+        }
+
+        /* Hero section */
+        .hero {
+            padding: 7rem 2rem 3rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin: 0 0 0.5rem;
+            letter-spacing: -0.03em;
+        }
+
+        .hero .subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Content area */
+        .content {
+            max-width: 1100px;
             margin: 0 auto;
+            padding: 0 2rem 4rem;
+        }
+
+        .chapter {
+            display: none;
+        }
+
+        .chapter.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Chapter content (readable section) */
+        .chapter-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
             padding: 2rem;
-            background: #1a1a2e;
-            color: #eaeaea;
+            margin-top: 1rem;
         }
-        h1 {
-            color: #7eb8da;
-            border-bottom: 2px solid #7eb8da;
-            padding-bottom: 0.5rem;
+
+        .chapter-content h2 {
+            font-size: 1.2rem;
+            color: var(--accent);
+            margin: 2rem 0 1rem;
         }
-        h2 {
-            color: #5ba3c6;
-            margin-top: 2rem;
+
+        .chapter-content h2:first-child {
+            margin-top: 0;
         }
-        h3 {
-            color: #9ca3af;
-            margin-top: 1.5rem;
+
+        .chapter-content h3 {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin: 1.5rem 0 0.75rem;
         }
-        ul {
-            margin: 0.5rem 0;
+
+        .chapter-content p, .chapter-content ul, .chapter-content ol {
+            margin: 0.75rem 0;
         }
-        li {
-            margin: 0.25rem 0;
+
+        .chapter-content ul, .chapter-content ol {
+            padding-left: 1.5rem;
         }
-        .note {
-            background: #252540;
-            border-left: 4px solid #5ba3c6;
-            padding: 1rem;
+
+        .chapter-content li {
+            margin: 0.3rem 0;
+        }
+
+        .chapter-content .note {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 4px solid var(--accent);
+            padding: 1rem 1.25rem;
             margin: 1rem 0;
-            color: #d1d5db;
+            border-radius: 0 8px 8px 0;
         }
-        code, .mono {
-            font-family: 'Consolas', 'Monaco', monospace;
-            background: #2d2d44;
-            color: #a5d6ff;
-            padding: 0.2em 0.4em;
-            border-radius: 3px;
+
+        .chapter-content .example {
+            background: rgba(255,255,255,0.03);
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            border: 1px solid var(--border);
         }
-        .example {
-            background: #252540;
-            padding: 1rem;
+
+        .chapter-content code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+            background: rgba(34, 211, 238, 0.1);
+            color: var(--accent);
+            padding: 0.2em 0.45em;
             border-radius: 4px;
-            margin: 1rem 0;
         }
-        table {
+
+        .chapter-content table {
             width: 100%;
             border-collapse: collapse;
             margin: 1rem 0;
+            font-size: 0.9rem;
         }
-        th, td {
-            border: 1px solid #3d3d5c;
-            padding: 0.5rem 0.75rem;
+
+        .chapter-content th,
+        .chapter-content td {
+            padding: 0.6rem 0.75rem;
             text-align: left;
+            border-bottom: 1px solid var(--border);
         }
-        th {
-            background: #2d2d44;
-            color: #7eb8da;
+
+        .chapter-content th {
+            color: var(--accent);
+            font-weight: 600;
         }
-        td {
-            background: #252540;
+
+        /* Chapter empty state */
+        .chapter-empty {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-muted);
+        }
+
+        .chapter-empty::before {
+            content: '📝';
+            display: block;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .header { padding: 0 1rem; }
+            .nav { gap: 0.25rem; }
+            .nav a { padding: 0.5rem 0.75rem; font-size: 0.85rem; }
+            .hero h1 { font-size: 1.75rem; }
+            .content { padding: 0 1rem 3rem; }
         }
     </style>
 </head>
 <body>
-    <h1>IPv4 Addresses</h1>
+    <header class="header">
+        <a href="#" class="brand">CCNA Notes</a>
+        <nav class="nav">
+            <a href="#" data-chapter="chapter-1" class="active">Chapter 1 — IPv4</a>
+            <a href="#" data-chapter="chapter-2">Chapter 2 — Coming soon</a>
+        </nav>
+    </header>
 
-    <h2>What are IPv4 addresses used for?</h2>
-    <ul>
-        <li>Created to allow one specific digital device to communicate directly with another specific digital device
-            <ul><li>This is called <strong>unicast communication</strong></li></ul>
-        </li>
-        <li>Needs to allow for one device to access multiple devices</li>
-    </ul>
+    <br>
+    <br>
+    <br>
 
-    <p>An IPv4 address is known as a <strong>hierarchical address</strong> because it can be divided into multiple smaller domains.</p>
-    <p>An IPv4 address in conjunction with a subnet gives you two pieces of information:</p>
-    <ul>
-        <li>The network in which the device is located</li>
-        <li>The unique identifier of the device</li>
-    </ul>
-    <div class="note">
-        <strong>Note:</strong> Different from a MAC address—a MAC address is a flat address. It does not give information about the network it's connected to.
+    <div class="content">
+        <section id="chapter-1" class="chapter active">
+            <div class="chapter-content">
+                <h2>What are IPv4 addresses used for?</h2>
+                <ul>
+                    <li>Created to allow one specific digital device to communicate directly with another specific digital device
+                        <ul><li>This is called <strong>unicast communication</strong></li></ul>
+                    </li>
+                    <li>Needs to allow for one device to access multiple devices</li>
+                </ul>
+
+                <p>An IPv4 address is known as a <strong>hierarchical address</strong> because it can be divided into multiple smaller domains.</p>
+                <p>An IPv4 address in conjunction with a subnet gives you two pieces of information:</p>
+                <ul>
+                    <li>The network in which the device is located</li>
+                    <li>The unique identifier of the device</li>
+                </ul>
+                <div class="note">
+                    <strong>Note:</strong> Different from a MAC address—a MAC address is a flat address. It does not give information about the network it's connected to.
+                </div>
+
+                <h2>What does an IPv4 address look like?</h2>
+                <ul>
+                    <li>The computer sees a <strong>32-bit number</strong></li>
+                    <li>For us they are broken up into 4 groups of 8 bits called bytes or octets, separated by periods</li>
+                    <li>For example:
+                        <ul>
+                            <li><code>11000000.10101000.00000001.00000001</code></li>
+                            <li>This would result in <code>192.168.1.1</code></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h3>More about binary (the type of language this is)</h3>
+                <ul>
+                    <li>You start with <code>00000000</code></li>
+                    <li>The first bit stands for 1, second for 2, third for 4, fourth for 8, fifth for 16, sixth for 32, seventh for 64, eighth for 128</li>
+                    <li>This is assuming an 8-bit number; the pattern continues (keep doubling)</li>
+                </ul>
+                <div class="example">
+                    <strong>Examples:</strong> <code>00011111</code> = 31, <code>11111111</code> = 255. Practice: <code>11010011</code> = 227
+                </div>
+
+                <p>IPv4 needs some way to differentiate the network portion from the host portion. All IPv4 addresses have a <strong>network mask</strong> (subnet mask).</p>
+                <p>A network mask is 32 bits that define what portion represents the network and which portion is the host.</p>
+
+                <h2>Rules for network masks</h2>
+                <ul>
+                    <li>A <strong>1</strong> in the mask defines a network bit</li>
+                    <li>A <strong>0</strong> in the mask defines a host bit</li>
+                </ul>
+
+                <h2>3 ways to denote a subnet mask</h2>
+                <ol>
+                    <li><strong>Binary:</strong> <code>11111111.11111111.11111111.00000000</code></li>
+                    <li><strong>Decimal:</strong> <code>255.255.255.0</code></li>
+                    <li><strong>Slash notation:</strong> <code>/24</code></li>
+                </ol>
+
+                <p>All tell us the first 24 bits are 1 and the last 8 are 0. The first 24 bits are the network portion; the last 8 define the host.</p>
+
+                <div class="example">
+                    <strong>Example:</strong> <code>192.168.1.1</code> + <code>255.255.255.0</code> → <code>192.168.1.1/24</code>
+                </div>
+
+                <p>In an IP address:</p>
+                <ul>
+                    <li>Host portion <strong>all 0s</strong> = network itself</li>
+                    <li>Host portion <strong>combination</strong> = specific device</li>
+                    <li>Host portion <strong>all 1s</strong> = broadcast address</li>
+                </ul>
+
+                <div class="example">
+                    <strong><code>192.168.1.1/24</code>:</strong> Network = <code>192.168.1.0</code>, Hosts = <code>192.168.1.1</code>–<code>192.168.1.254</code>, Broadcast = <code>192.168.1.255</code>
+                </div>
+
+                <h2>Classes of IPv4 Addresses</h2>
+                <p>5 classes by size. Broken down by <strong>leading bit pattern</strong> of the first octet.</p>
+                <div class="note">
+                    <strong>Note:</strong> Largely replaced by CIDR, but still important to know.
+                </div>
+
+                <table>
+                    <tr><th>Class</th><th>Pattern</th><th>Range</th><th>Notes</th></tr>
+                    <tr><td>A</td><td><code>0xxxxxxx</code></td><td>0–127</td><td>10.0.0.0/8 private; 127 loopback</td></tr>
+                    <tr><td>B</td><td><code>10xxxxxx</code></td><td>128–191</td><td>172.16.0.0/12 private</td></tr>
+                    <tr><td>C</td><td><code>110xxxxx</code></td><td>192–223</td><td>192.168.0.0/16 private</td></tr>
+                    <tr><td>D</td><td><code>1110xxxx</code></td><td>224–239</td><td>Multicast only</td></tr>
+                    <tr><td>E</td><td><code>1111xxxx</code></td><td>240–255</td><td>Reserved</td></tr>
+                </table>
+
+                <h2>Network vs. Node (Host) Bits</h2>
+                <p>Within classes A–C: network (N) vs node/host (H) octets. Class A = /8, B = /16, C = /24.</p>
+
+                <ul>
+                    <li><strong>Class A:</strong> 2<sup>24</sup> − 2 = 16,777,214 hosts/network</li>
+                    <li><strong>Class B:</strong> 2<sup>16</sup> − 2 = 65,534 hosts/network</li>
+                    <li><strong>Class C:</strong> 2<sup>8</sup> − 2 = 254 hosts/network</li>
+                </ul>
+
+                <p><strong>Conclusions:</strong> 126 Class A networks • 16,384 Class B • 2,097,152 Class C</p>
+
+                <div class="note">
+                    <strong>Example:</strong> <code>192.168.1.1/24</code> is a Class C network.
+                </div>
+            </div>
+        </section>
+
+        <section id="chapter-2" class="chapter">
+            <div class="chapter-content">
+                <div class="chapter-empty">Add your notes here when you're ready.</div>
+            </div>
+        </section>
     </div>
 
-    <h2>What does an IPv4 address look like?</h2>
-    <ul>
-        <li>The computer sees a <strong>32-bit number</strong></li>
-        <li>For us they are broken up into 4 groups of 8 bits called bytes or octets, separated by periods</li>
-        <li>For example:
-            <ul>
-                <li><code>11000000.10101000.00000001.00000001</code></li>
-                <li>This would result in <code>192.168.1.1</code></li>
-            </ul>
-        </li>
-    </ul>
-
-    <h3>More about binary (the type of language this is)</h3>
-    <ul>
-        <li>You start with <code>00000000</code></li>
-        <li>The first bit stands for 1</li>
-        <li>The second bit stands for 2</li>
-        <li>The third bit stands for 4</li>
-        <li>The fourth bit stands for 8</li>
-        <li>The fifth bit stands for 16</li>
-        <li>The sixth bit stands for 32</li>
-        <li>The seventh bit stands for 64</li>
-        <li>The eighth bit stands for 128</li>
-        <li>This is assuming it is an 8-bit number; anything past is the same pattern (just keep doubling until you reach the number)</li>
-    </ul>
-    <div class="example">
-        <strong>Examples:</strong>
-        <ul>
-            <li><code>00011111</code> is 31 (it would not be 32 because <code>00100000</code> is 32)</li>
-            <li><code>11111111</code> is 255, the largest possible number for an 8-bit number</li>
-            <li>For practice: what is <code>11010011</code>? — <em>(answer: 227)</em></li>
-        </ul>
-    </div>
-
-    <p>IPv4 needs some way to differentiate the network portion from the host portion. To do this, all IPv4 addresses have a <strong>network mask</strong> (or subnetwork mask, subnet mask, or mask).</p>
-    <p>A network mask is 32 bits that define what portion represents the network and which portion is the host.</p>
-
-    <h2>Rules for network masks</h2>
-    <ul>
-        <li>A <strong>1</strong> in the mask defines a network bit</li>
-        <li>A <strong>0</strong> in the mask defines a host bit</li>
-    </ul>
-
-    <h2>3 ways to denote a subnet mask</h2>
-    <ol>
-        <li><strong>Binary:</strong> <code>11111111.11111111.11111111.00000000</code></li>
-        <li><strong>Decimal:</strong> <code>255.255.255.0</code></li>
-        <li><strong>Slash notation:</strong> <code>/24</code></li>
-    </ol>
-
-    <p>All of them tell us the first 24 bits of the 32-bit mask are 1 and the last 8 are 0.</p>
-    <p>Compared to an IPv4 address, the first 24 bits are the network portion of the address and the last 8 bits define the host.</p>
-
-    <div class="example">
-        <strong>If you add them you get a result like this:</strong>
-        <ul>
-            <li><code>11000000.10101000.00000001.00000001</code> (address)</li>
-            <li><code>11111111.11111111.11111111.00000000</code> (mask)</li>
-            <li><code>192.168.1.1 255.255.255.0</code></li>
-            <li><code>192.168.1.1/24</code></li>
-        </ul>
-    </div>
-
-    <p>First designed to allow for people to recognize whether an IP address connected to a specific device or a group of devices.</p>
-    <p>In an IP address:</p>
-    <ul>
-        <li>A host portion of <strong>all binary 0's</strong> refers to the network itself</li>
-        <li>A host portion with a <strong>combination</strong> is a specific device</li>
-        <li>A host portion of <strong>all binary 1's</strong> refers to the broadcast address of the network</li>
-    </ul>
-
-    <div class="example">
-        <strong>Using <code>192.168.1.1/24</code> for our example:</strong>
-        <ul>
-            <li><strong>All 0's in the host</strong> = the network itself → <code>192.168.1.0</code></li>
-            <li><strong>Host portion <code>00000001</code></strong> = first host → <code>192.168.1.1</code>
-                <ul><li>Ranges up to <code>11111110</code>, giving 254 unique addresses: <code>192.168.1.1</code>–<code>192.168.1.254</code></li></ul>
-            </li>
-            <li><strong>Host portion of all 1's</strong> = broadcast address → <code>192.168.1.255</code></li>
-        </ul>
-    </div>
-
-    <h2>Classes of IPv4 Addresses</h2>
-    <p>IPv4 addresses are divided into 5 different classes according to size.</p>
-    <div class="note">
-        <strong>Note:</strong> Not currently used due to Classless Inter-Domain Routing (CIDR), but still good to know.
-    </div>
-    <p>Broken down by a concept called <strong>"leading bit pattern"</strong> of the first octet of an IPv4 address.</p>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Class</th>
-                <th>Leading Bit Pattern</th>
-                <th>First Octet (Decimal)</th>
-                <th>Notes</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>A</td>
-                <td><code>0xxxxxxx</code></td>
-                <td>0–127</td>
-                <td>0 is invalid; 10.0.0.0/8 reserved for private internal routing; 127 reserved for loopback testing</td>
-            </tr>
-            <tr>
-                <td>B</td>
-                <td><code>10xxxxxx</code></td>
-                <td>128–191</td>
-                <td>172.16.0.0/12 reserved for private internal routing</td>
-            </tr>
-            <tr>
-                <td>C</td>
-                <td><code>110xxxxx</code></td>
-                <td>192–223</td>
-                <td>192.168.0.0/16 reserved for private internal routing</td>
-            </tr>
-            <tr>
-                <td>D</td>
-                <td><code>1110xxxx</code></td>
-                <td>224–239</td>
-                <td>Reserved for multicasting; cannot be assigned to unicast hosts</td>
-            </tr>
-            <tr>
-                <td>E</td>
-                <td><code>1111xxxx</code></td>
-                <td>240–255</td>
-                <td>Reserved for future use/testing</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <ul>
-        <li>Classes A, B, and C are the only classes able to use unicast communication</li>
-        <li>Class D is for multicast communication</li>
-        <li>Class E will never be released for unicast communication</li>
-    </ul>
-
-    <h2>Network vs. Node (Host) Bits</h2>
-    <p>Within classes A to C, the four octets were broken down into either network octets (N) or node/host octets (H).</p>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Class</th>
-                <th>Octet 1</th>
-                <th>Octet 2</th>
-                <th>Octet 3</th>
-                <th>Octet 4</th>
-                <th>Default Network Mask</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>A</td>
-                <td>NNNNNNNN</td>
-                <td>HHHHHHHH</td>
-                <td>HHHHHHHH</td>
-                <td>HHHHHHHH</td>
-                <td>/8 or 255.0.0.0</td>
-            </tr>
-            <tr>
-                <td>B</td>
-                <td>NNNNNNNN</td>
-                <td>NNNNNNNN</td>
-                <td>HHHHHHHH</td>
-                <td>HHHHHHHH</td>
-                <td>/16 or 255.255.0.0</td>
-            </tr>
-            <tr>
-                <td>C</td>
-                <td>NNNNNNNN</td>
-                <td>NNNNNNNN</td>
-                <td>NNNNNNNN</td>
-                <td>HHHHHHHH</td>
-                <td>/24 or 255.255.255.0</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <ul>
-        <li><strong>Class A</strong> has 24 bits for hosts. 2<sup>24</sup> = 16,777,216. Removing two (network ID + broadcast) leaves <strong>16,777,214</strong> available hosts per network.</li>
-        <li><strong>Class B</strong> has 16 bits for hosts. 2<sup>16</sup> = 65,536. Subtracting two leaves <strong>65,534</strong> valid hosts per network.</li>
-        <li><strong>Class C</strong> has 8 bits for hosts. 2<sup>8</sup> = 256. Subtracting two leaves <strong>254</strong> valid hosts per network.</li>
-    </ul>
-
-    <h3>Conclusions</h3>
-    <ul>
-        <li>There are <strong>126</strong> Class A networks of 16,777,214 valid hosts each</li>
-        <li>There are <strong>16,384</strong> Class B networks of 65,534 valid hosts each
-            <ul>
-                <li>From the first 16 bits, but two are fixed (<code>10</code>). That leaves 14 bits → 2<sup>14</sup> = 16,384</li>
-                <li>Ranges from <code>10000000.00000000</code> (128.0) to <code>10111111.11111111</code> (191.255)</li>
-            </ul>
-        </li>
-        <li>There are <strong>2,097,152</strong> Class C networks of 254 valid hosts each
-            <ul>
-                <li>First 24 bits, with first three fixed (<code>110</code>). That leaves 21 bits → 2<sup>21</sup> = 2,097,152</li>
-                <li>Ranges from <code>11000000.00000000.00000000</code> (192.0.0) to <code>11011111.11111111.11111111</code> (223.255.255)</li>
-            </ul>
-        </li>
-    </ul>
-
-    <div class="note">
-        <strong>Example:</strong> Using this information, <code>192.168.1.1/24</code> is a Class C network.
-    </div>
+    <script>
+        document.querySelectorAll('.nav a').forEach(a => {
+            a.addEventListener('click', (e) => {
+                e.preventDefault();
+                const id = a.dataset.chapter;
+                document.querySelectorAll('.chapter').forEach(c => c.classList.remove('active'));
+                document.querySelectorAll('.nav a').forEach(l => l.classList.remove('active'));
+                document.getElementById(id).classList.add('active');
+                a.classList.add('active');
+            });
+        });
+    </script>
 </body>
 </html>
