@@ -126,3 +126,27 @@ Following this infomation, we can make these conclusions.
 			- That results in 2,097,152 differnt combonations/networks
 			
 Using this infomation, we can tell that 192.168.1.1/24 is a class C network
+
+RFC (private) 1918 Addresses
+	Created to help slow the depletion of IPv4 addresses
+	Addresses that are part of RFC are to be used for internal networks only. They are allowed within the network but not allowed to the public. 
+	Must go through a Network Address Translation (NAT) to be used for public use. 
+	
+Local vs. Remote Addresses
+	Addresses within the same network and can communicate are cosidered Local to each other
+	Addresses in two different networks that can communicate are considered remote to each other
+	
+	Local devices can only communicate directly with each other
+	Remote devices require a Layer 3 device (such as a router or layer 3 switch)
+
+(Note to self, did not include Classless Addressing. Will add later)
+
+Lessons Learned
+	- 192.168.1.1/24 tell us:
+		- The network portion is 192.168.1
+			- This is shown as 192.168.1.0/24
+		- The host portion of this address is .1
+		- There are 254 valid hosts on this network
+			- This is the first valid host
+		- The broadcast address is 192.168.1.255/24
+		- This is a Class C network
