@@ -2,7 +2,8 @@
 The text version will always be more up to date then the hmtl version<br>
 I just don't have all the time to do both<br>
 All notes were taken in Notepad++<br>
-For any questions email me at ljaicsi25@gmail.com or discord at @cyberkeco
+For any questions email me at ljaicsi25@gmail.com or discord at @cyberkeco<br>
+To view HTML version, navigate to HTML branch
 <hr>
 <h2>In progress</h2>
 <ul>
