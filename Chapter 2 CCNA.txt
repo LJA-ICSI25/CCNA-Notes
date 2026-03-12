@@ -1,0 +1,87 @@
+--How to Subnet IPv4 Addresses--
+
+-Subnetting a Class C network-
+Say you have a network address of 192.168.100.0/24 and you need nine subnets.
+You can only use H bits, not N bits. So you can ignore the 192.168.100 part.
+	Remember for Class C networks that it's like such:
+
+	|Octet 1		|Octet 2		|Octet 3		|Octet 4	|
+	|NNNNNNNN		|NNNNNNNN		|NNNNNNNN		|HHHHHHHH	|
+	
+	You will need to borrow some host bits and turn them into network bits (Or in this case, subnet bits. I will use S to show that it is not a subnet bit)
+	
+	First you need to know how many H bits you need to borrow. 
+	2^N is greater than or equal to 9 (It doesn't let me use the symbol, it's ">" with a line under)
+	N is equal to 4 so 4 H bits
+		|Start with 8 H bits	|HHHHHHHH
+		|Borrow 4 bits			|SSSSHHHH
+		
+	Determine the first subnet in binary
+		|0000HHHH		|
+		|00000000		|All 0s in host portion = subnetwork number
+		|00000001		|First valid host number
+		|00000010		|Second valid host number
+		|00000011		|Third vaild host number
+		(This patter continues for rest of host numbers)
+		|00001110		|Last valid host number
+		|00001111		|All 1s in host portion = broadcast number
+		
+		Convert binary to decimal
+			|Binary		|Decimal	|Notes
+			|00000000	|0			|Subnet number
+			|00000001	|1			|First valid host
+			|00000010	|2			|Second valid host
+			|00000011	|3			|Third valid host
+			(Pattern once again continues)
+			|00001110	|14			|Last valid host
+			|00001111	|15			|Boardcast number
+			
+	Determine the second subnet in binary
+		|0001HHHH	|
+		|00010000	|subnet number
+		|00010001	|First valid host
+		(You get the idea)
+		|00011110	|Last valid host
+		|00011111	|Boardcast number
+		
+		Convert binary to decimal
+		|Binary		|Decimal	|Notes
+		|00010000	|16			|Subnet number
+		|00010001	|17			|First valid host
+		|00010010	|18			|Second valid host
+		(Please tell me you get the idea by now)
+		|00011110	|30			|Last valid host
+		|00011111	|31			|Boardcast number
+		
+	Build IP plan table
+	|Subnet	|Network number	|Range of valid hosts	|Boardcast number	|
+	|1		|0				|1-14					|15					|
+	|2		|16				|17-30					|31					|
+	|3		|32				|33-46					|47					|
+	See a pattern, counting by 16
+	
+	Full IP plan table
+	|Subnet		|Network Address	|Range of valid host				|Boardcast Address		|
+	|1  (0000)	|192.168.100.0		|192.168.100.1 - 192.168.100.14		|192.168.100.15			|
+	|2  (0001)	|192.168.100.16		|192.168.100.17 - 192.168.100.30	|192.168.100.31			|
+	|3  (0010)	|192.168.100.32		|192.168.100.33 - 192.168.100.46	|192.168.100.47			|
+	|4  (0011)	|192.168.100.48		|192.168.100.49 - 192.168.100.62	|192.168.100.63			|
+	|5  (0100)	|192.168.100.64		|192.168.100.65 - 192.168.100.78	|192.168.100.79			|
+	|6  (0101)	|192.168.100.80		|192.168.100.81 - 192.168.100.94 	|192.168.100.95			|
+	|7  (0110)	|192.168.100.96		|192.168.100.97 - 192.168.100.110	|192.168.100.111		|
+	|8  (0111)	|192.168.100.112	|192.168.100.113 - 192.168.100.126	|192.168.100.127		|
+	|9  (1000)	|192.168.100.128	|192.168.100.129 - 192.168.100.142	|192.168.100.143		|
+	|10 (1001)	|192.168.100.144	|192.168.100.145 - 192.168.100.158	|192.168.100.159		|
+	|11 (1010)	|192.168.100.160	|192.168.100.161 - 192.168.100.174	|192.168.100.175		|
+	|12 (1011)	|192.168.100.176	|192.168.100.177 - 192.168.100.190	|192.168.100.191		|
+	|13 (1100)	|192.168.100.192	|192.168.100.193 - 192.168.100.206	|192.168.100.207		|
+	|14 (1101)	|192.168.100.208	|192.168.100.209 - 192.168.100.222	|192.168.100.223		|
+	|15 (1110)	|192.168.100.224	|192.168.100.225 - 192.168.100.238	|192.168.100.239		|
+	|16 (1111) 	|192.168.100.240	|192.168.100.241 - 192.168.100.254	|192.168.100.255		|
+	|Quick Check|Always even number |Always odd number - Always even	|Always an odd number	|
+	
+	Calculate the subnet mask
+	|Orginal mask	|11111111.11111111.11111111.00000000	|255.255.255.0	 |
+	|New mask		|11111111.11111111.11111111.11110000	|255.255.255.240 |
+	We get this from the 4 bits we borrowed before
+	
