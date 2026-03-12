@@ -1,4 +1,5 @@
 # CCNA-Notes
+<strong>Navigation.md contains info about each branch and it's contents</strong><br>
 The text version will always be more up to date then the hmtl version<br>
 I just don't have all the time to do both<br>
 All notes were taken in Notepad++<br>
