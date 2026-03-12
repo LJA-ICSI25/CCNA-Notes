@@ -1,5 +1,5 @@
 # CCNA-Notes
-This is simply a branch that contains all the sites for easier export and download<br>
+<strong>This is simply a branch that contains all the sites for easier export and download</strong><br>
 The text version will always be more up to date then the hmtl version<br>
 I just don't have all the time to do both<br>
 All notes were taken in Notepad++<br>
