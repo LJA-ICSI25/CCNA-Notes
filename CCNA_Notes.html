@@ -1,3 +1,4 @@
+<!--Note to self, change summary from popup to tab under chapter in sidebar-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,11 +40,12 @@
             line-height: 1.7;
             margin: 0;
             min-height: 100vh;
+            height: 100vh;
             background: var(--bg-dark);
             color: var(--text);
             -webkit-font-smoothing: antialiased;
             position: relative;
-            overflow-x: hidden;
+            overflow: hidden;
         }
 
         /* Subtle grid/network background */
@@ -147,12 +149,50 @@
             box-shadow: 0 0 0 1px var(--accent);
         }
 
-        /* Main layout: sidebar + content */
+        .sidebar-actions {
+            margin-top: auto;
+            padding: 1rem 0.75rem 0;
+            border-top: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .sidebar-actions button {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 0.7rem 1rem;
+            cursor: pointer;
+            font-family: inherit;
+            text-align: left;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-actions button:hover {
+            color: var(--text);
+            background: rgba(57, 197, 207, 0.06);
+            border-color: rgba(57, 197, 207, 0.3);
+        }
+
+        .sidebar-actions button.sidebar-summary {
+            display: none;
+        }
+
+        .sidebar-actions button.sidebar-summary.visible {
+            display: block;
+        }
+
+        /* Main layout: sidebar + content (always visible) */
         .main-layout {
             display: flex;
-            min-height: calc(100vh - 60px);
+            height: calc(100vh - 60px);
             position: relative;
             z-index: 1;
+            overflow: hidden;
         }
 
         .sidebar {
@@ -161,6 +201,9 @@
             background: linear-gradient(180deg, var(--bg-card) 0%, rgba(18, 23, 30, 0.98) 100%);
             border-right: 1px solid var(--border);
             padding: 1.5rem 0;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
         }
 
         .sidebar-title {
@@ -170,6 +213,7 @@
             letter-spacing: 0.12em;
             color: var(--text-muted);
             padding: 0 1.5rem;
+            margin-top: 1.25rem;
             margin-bottom: 1rem;
         }
 
@@ -204,11 +248,26 @@
             box-shadow: 0 0 20px var(--glow);
         }
 
-        /* Content area */
+        /* Content area - scrolls independently */
+        .content-wrapper {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
         .content {
             flex: 1;
             padding: 2.5rem 3.5rem 5rem;
             min-width: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: none;
+        }
+
+        .content.visible {
+            display: block;
         }
 
         .chapter {
@@ -322,6 +381,56 @@
 
         .chapter-content .example strong {
             color: var(--accent-orange);
+        }
+
+        .chapter-summary {
+            display: none;
+            background: linear-gradient(135deg, rgba(163, 113, 247, 0.12) 0%, rgba(163, 113, 247, 0.04) 100%);
+            border: 1px solid rgba(163, 113, 247, 0.35);
+            border-radius: 12px;
+            padding: 1.5rem 1.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .chapter-summary.visible {
+            display: block;
+        }
+
+        .chapter-summary h3 {
+            margin-top: 0;
+            color: var(--accent-purple);
+        }
+
+        .chapter-summary h3::before {
+            content: '📋 ';
+        }
+
+        .chapter-summary h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--accent-purple);
+            margin: 1.25rem 0 0.5rem;
+        }
+
+        .chapter-summary h4:first-of-type {
+            margin-top: 0;
+        }
+
+        .chapter-summary ul {
+            margin: 0.5rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .chapter-summary li {
+            margin: 0.35rem 0;
+        }
+
+        .chapter-summary p {
+            margin: 1rem 0;
+        }
+
+        .chapter-summary p:first-of-type {
+            margin-top: 0;
         }
 
         .chapter-content .lessons-learned {
@@ -451,20 +560,18 @@
             color: var(--accent-green);
         }
 
-        /* Home screen */
+        /* Home screen - inside content wrapper */
         .home-screen {
             display: none;
             flex: 1;
             padding: 2.5rem 3.5rem 5rem;
-            min-height: calc(100vh - 60px);
+            min-width: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
 
         .home-screen.active {
             display: block;
-        }
-
-        .main-layout.hidden {
-            display: none;
         }
 
         .home-content {
@@ -550,17 +657,96 @@
             margin: 0.25rem 0;
         }
 
+        /* Summary screen (separate view) */
+        .summary-screen {
+            display: none;
+            flex: 1;
+            padding: 2.5rem 3.5rem 5rem;
+            min-width: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .summary-screen.active {
+            display: block;
+        }
+
+        .summary-content {
+            background: linear-gradient(145deg, var(--bg-card) 0%, rgba(22, 28, 36, 0.95) 100%);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            line-height: 1.7;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .summary-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text);
+            margin: 0 0 1.5rem;
+            padding: 0.75rem 0;
+            padding-left: 1rem;
+            border-left: 4px solid var(--accent-purple);
+            border-radius: 0 8px 8px 0;
+            background: linear-gradient(90deg, rgba(163, 113, 247, 0.18) 0%, transparent 100%);
+        }
+
+        /* Right-click context menu for chapters */
+        .chapter-context-menu {
+            position: fixed;
+            z-index: 100;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.35rem 0;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55);
+            min-width: 160px;
+            display: none;
+        }
+
+        .chapter-context-menu button {
+            width: 100%;
+            padding: 0.5rem 0.9rem;
+            background: transparent;
+            border: none;
+            color: var(--text-soft);
+            font-size: 0.9rem;
+            font-family: inherit;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .chapter-context-menu button:hover {
+            background: rgba(57, 197, 207, 0.12);
+            color: var(--text);
+        }
+
     </style>
 </head>
 <body>
     <header class="header">
         <div class="header-left">
             <a href="#" id="brand-home" class="brand">CCNA Notes</a>
-            <a href="#" id="view-chapters" class="header-view-chapters">View Chapters</a>
         </div>
-        <button type="button" id="study-mode-btn" class="header-badge">Study Mode</button>
     </header>
 
+    <div class="main-layout" id="main-layout">
+        <aside class="sidebar">
+            <nav class="nav">
+                <a href="#" data-chapter="home" class="nav-home active">Home</a>
+            </nav>
+            <div class="sidebar-title">Chapters</div>
+            <nav class="nav">
+                <a href="#" data-chapter="chapter-1">Chapter 1 — IPv4</a>
+                <a href="#" data-chapter="chapter-2">Chapter 2 — Subnetting</a>
+            </nav>
+            <div class="sidebar-actions">
+                <button type="button" id="study-mode-btn">Study Mode</button>
+            </div>
+        </aside>
+
+        <div class="content-wrapper">
     <div class="home-screen active" id="home-screen">
         <div class="home-content">
             <div class="home-left">
@@ -609,18 +795,51 @@
         </div>
     </div>
 
-    <div class="main-layout hidden" id="main-layout">
-        <aside class="sidebar">
-            <div class="sidebar-title">Chapters</div>
-            <nav class="nav">
-                <a href="#" data-chapter="chapter-1" class="active">Chapter 1 — IPv4</a>
-                <a href="#" data-chapter="chapter-2">Chapter 2 — Subnetting</a>
-            </nav>
-        </aside>
+    <div class="summary-screen" id="summary-screen">
+        <div class="summary-content">
+            <h2 class="summary-title" id="summary-title">Chapter Summary</h2>
+            <div id="summary-body"></div>
+        </div>
+    </div>
 
         <main class="content">
-        <section id="chapter-1" class="chapter active">
+        <section id="chapter-1" class="chapter">
             <div class="chapter-content">
+                <div class="chapter-summary" id="chapter-1-summary">
+                    <h3>Chapter 1 — IPv4 Summary</h3>
+                    <h4>Purpose & structure</h4>
+                    <p>IPv4 enables unicast communication (one device to one) and is hierarchical—unlike flat MAC addresses, it reveals the network and the unique host. With a subnet mask, it identifies both.</p>
+                    <h4>Format</h4>
+                    <ul>
+                        <li>32-bit address in 4 octets (e.g. <code>192.168.1.1</code>)</li>
+                        <li>Binary: bits double left to right — 1, 2, 4, 8, 16, 32, 64, 128 per octet</li>
+                        <li><code>11111111</code> = 255</li>
+                    </ul>
+                    <h4>Network mask</h4>
+                    <ul>
+                        <li>1 = network bit, 0 = host bit</li>
+                        <li>Same info three ways: binary, decimal (<code>255.255.255.0</code>), slash (<code>/24</code>)</li>
+                    </ul>
+                    <h4>Critical rule</h4>
+                    <ul>
+                        <li>Host all 0s → network address</li>
+                        <li>Host any mix → valid host</li>
+                        <li>Host all 1s → broadcast</li>
+                    </ul>
+                    <p><code>192.168.1.1/24</code>: network <code>192.168.1.0</code>, hosts <code>.1</code>–<code>.254</code>, broadcast <code>192.168.1.255</code>. 254 usable hosts (2<sup>8</sup> − 2).</p>
+                    <h4>Classes A–E</h4>
+                    <ul>
+                        <li>A: <code>0xxxxxxx</code>, 0–127, 10.0.0.0/8 private</li>
+                        <li>B: <code>10xxxxxx</code>, 128–191, 172.16.0.0/12 private</li>
+                        <li>C: <code>110xxxxx</code>, 192–223, 192.168.0.0/16 private</li>
+                        <li>D: 224–239 (multicast), E: 240–255 (reserved)</li>
+                        <li>Hosts: A = 2<sup>24</sup>−2, B = 2<sup>16</sup>−2, C = 254</li>
+                    </ul>
+                    <h4>RFC 1918 & NAT</h4>
+                    <p>Private addresses are internal only; need NAT for public access.</p>
+                    <h4>Local vs remote</h4>
+                    <p>Same network = local (direct). Different networks = remote (requires router or L3 switch).</p>
+                </div>
                 <h2>What are IPv4 addresses used for?</h2>
                 <ul>
                     <li>Created to allow one specific digital device to communicate directly with another specific digital device
@@ -760,6 +979,33 @@
 
         <section id="chapter-2" class="chapter">
             <div class="chapter-content">
+                <div class="chapter-summary" id="chapter-2-summary">
+                    <h3>Chapter 2 — Subnetting Summary</h3>
+                    <h4>Goal</h4>
+                    <p>Split a Class C network (e.g. <code>192.168.100.0/24</code>) into smaller subnets. Borrow only from host bits (4th octet); network bits stay fixed.</p>
+                    <h4>Step 1 — Bits to borrow</h4>
+                    <ul>
+                        <li>2<sup>N</sup> ≥ subnets needed</li>
+                        <li>Nine subnets → 2<sup>4</sup> = 16 ≥ 9, so borrow 4 bits</li>
+                        <li>8 H bits become <code>SSSSHHHH</code> (4 subnet, 4 host)</li>
+                        <li>Each subnet: 2<sup>4</sup>−2 = 14 hosts</li>
+                    </ul>
+                    <h4>Step 2 — Binary pattern</h4>
+                    <ul>
+                        <li>Subnet number = all 0s in host portion; broadcast = all 1s</li>
+                        <li>First subnet: 0–15; second: 16–31; increment by 16</li>
+                    </ul>
+                    <h4>Step 3 — IP plan table</h4>
+                    <ul>
+                        <li>Count by 16: Subnet 1 = .0, hosts .1–.14, broadcast .15</li>
+                        <li>Subnet 2 = .16, hosts .17–.30, broadcast .31</li>
+                        <li>Continue: .32, .48, .64 … up to .240</li>
+                    </ul>
+                    <h4>New subnet mask</h4>
+                    <p>Original /24 → <code>255.255.255.0</code>. Borrow 4 bits → /28 = <code>255.255.255.240</code>.</p>
+                    <h4>Quick checks</h4>
+                    <p>Network = even; first host = odd; last host = even; broadcast = odd. 16 subnets total.</p>
+                </div>
                 <h2>How to Subnet IPv4 Addresses</h2>
 
                 <h3>Subnetting a Class C network</h3>
@@ -857,31 +1103,71 @@
             </div>
         </section>
         </main>
+        </div>
+    </div>
+
+    <div id="chapter-context-menu" class="chapter-context-menu">
+        <button type="button" id="ctx-open-summary">Open Summary</button>
     </div>
 
     <script>
         const homeScreen = document.getElementById('home-screen');
-        const mainLayout = document.getElementById('main-layout');
+        const summaryScreen = document.getElementById('summary-screen');
+        const summaryTitle = document.getElementById('summary-title');
+        const summaryBody = document.getElementById('summary-body');
+        const content = document.querySelector('.content');
         const brandHome = document.getElementById('brand-home');
-        const viewChaptersBtn = document.getElementById('view-chapters');
 
-        function showHome() {
-            homeScreen.classList.add('active');
-            mainLayout.classList.add('hidden');
-            viewChaptersBtn.classList.remove('hidden');
+        const chapterSummaries = {
+            'chapter-1': document.getElementById('chapter-1-summary'),
+            'chapter-2': document.getElementById('chapter-2-summary')
+        };
+
+        const contextMenu = document.getElementById('chapter-context-menu');
+        const contextMenuSummaryBtn = document.getElementById('ctx-open-summary');
+        let contextChapterId = null;
+
+        function hideAllMainViews() {
+            homeScreen.classList.remove('active');
+            summaryScreen.classList.remove('active');
+            content.classList.remove('visible');
         }
 
-        function showChapters(chapterId) {
-            homeScreen.classList.remove('active');
-            mainLayout.classList.remove('hidden');
-            viewChaptersBtn.classList.add('hidden');
-            if (chapterId) {
-                document.querySelectorAll('.chapter').forEach(c => c.classList.remove('active'));
-                document.querySelectorAll('.nav a').forEach(l => l.classList.remove('active'));
-                document.getElementById(chapterId).classList.add('active');
-                const navLink = document.querySelector(`.nav a[data-chapter="${chapterId}"]`);
-                if (navLink) navLink.classList.add('active');
-            }
+        function showHome() {
+            hideAllMainViews();
+            homeScreen.classList.add('active');
+            document.querySelectorAll('.nav a').forEach(l => l.classList.remove('active'));
+            const homeLink = document.querySelector('.nav a[data-chapter="home"]');
+            if (homeLink) homeLink.classList.add('active');
+        }
+
+        function showChapter(chapterId) {
+            hideAllMainViews();
+            content.classList.add('visible');
+            document.querySelectorAll('.chapter').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.nav a').forEach(l => l.classList.remove('active'));
+            const el = document.getElementById(chapterId);
+            if (el) el.classList.add('active');
+            const navLink = document.querySelector(`.nav a[data-chapter="${chapterId}"]`);
+            if (navLink) navLink.classList.add('active');
+        }
+
+        function showSummary(chapterId) {
+            const source = chapterSummaries[chapterId];
+            if (!source) return;
+
+            hideAllMainViews();
+            summaryScreen.classList.add('active');
+
+            const navLink = document.querySelector(`.nav a[data-chapter="${chapterId}"]`);
+            const label = navLink ? navLink.textContent.trim() : 'Chapter Summary';
+            summaryTitle.textContent = `${label} — Summary`;
+
+            // Use the inner content of the summary block (without its outer wrapper)
+            let html = source.innerHTML || '';
+            // Strip the inner h3 title if present so we don't duplicate titles
+            html = html.replace(/<h3[^>]*>.*?<\/h3>/i, '');
+            summaryBody.innerHTML = html;
         }
 
         brandHome.addEventListener('click', (e) => {
@@ -889,15 +1175,10 @@
             showHome();
         });
 
-        viewChaptersBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            showChapters();
-        });
-
         document.querySelectorAll('.toc-link').forEach(a => {
             a.addEventListener('click', (e) => {
                 e.preventDefault();
-                showChapters(a.dataset.chapter);
+                showChapter(a.dataset.chapter);
             });
         });
 
@@ -905,11 +1186,36 @@
             a.addEventListener('click', (e) => {
                 e.preventDefault();
                 const id = a.dataset.chapter;
-                document.querySelectorAll('.chapter').forEach(c => c.classList.remove('active'));
-                document.querySelectorAll('.nav a').forEach(l => l.classList.remove('active'));
-                document.getElementById(id).classList.add('active');
-                a.classList.add('active');
+                if (id === 'home') {
+                    showHome();
+                } else {
+                    showChapter(id);
+                }
             });
+        });
+        // Right-click context menu for chapters
+        document.querySelectorAll('.nav a[data-chapter]').forEach(a => {
+            a.addEventListener('contextmenu', (e) => {
+                const id = a.dataset.chapter;
+                if (!id || id === 'home') return;
+                e.preventDefault();
+                contextChapterId = id;
+                const rect = e.target.getBoundingClientRect();
+                contextMenu.style.display = 'block';
+                contextMenu.style.left = `${e.clientX}px`;
+                contextMenu.style.top = `${e.clientY}px`;
+            });
+        });
+
+        document.addEventListener('click', () => {
+            contextMenu.style.display = 'none';
+        });
+
+        contextMenuSummaryBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            contextMenu.style.display = 'none';
+            if (!contextChapterId) return;
+            showSummary(contextChapterId);
         });
 
         const studyBtn = document.getElementById('study-mode-btn');
@@ -926,6 +1232,8 @@
         document.addEventListener('fullscreenchange', () => {
             if (!document.fullscreenElement) studyBtn.textContent = 'Study Mode';
         });
+
+        // Context menu element (added near end of body)
     </script>
 </body>
 </html>
